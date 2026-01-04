@@ -9,12 +9,12 @@ from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import root_mean_squared_error
-# from sklearn.preprocessing import OrdinalEncoder  # Uncomment if you prefer ordinal
+
  
-# 1. Load the data
+
 housing = pd.read_csv("housing.csv")
  
-# 2. Create a stratified test set based on income category
+
 housing["income_cat"] = pd.cut(
     housing["median_income"],
     bins=[0., 1.5, 3.0, 4.5, 6., np.inf],
@@ -25,11 +25,9 @@ split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
 for train_index, test_index in split.split(housing, housing["income_cat"]):
     strat_train_set = housing.loc[train_index].drop("income_cat", axis=1)
     strat_test_set = housing.loc[test_index].drop("income_cat", axis=1)
- 
-# Work on a copy of training data
+
 housing = strat_train_set.copy()
  
-# 3. Separate predictors and labels
 housing_labels = housing["median_house_value"].copy()
 housing = housing.drop("median_house_value", axis=1)
 print(housing.head())
